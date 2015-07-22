@@ -1,0 +1,748 @@
+GuildEventsUI = GuildEventsUI or {}
+GuildEventsUI.events = {}
+
+local ui = GuildEventsUI.events
+local wm = WINDOW_MANAGER
+
+------------------------------------------------
+--- Utility functions
+------------------------------------------------
+local function echo(msg) CHAT_SYSTEM.primaryContainer.currentBuffer:AddMessage("|CFFFF00"..msg) end
+
+function string:split( inSplitPattern, outResults )
+    if not outResults then
+        outResults = { }
+    end
+    local theStart = 1
+    local theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
+    while theSplitStart do
+        table.insert( outResults, string.sub( self, theStart, theSplitStart-1 ) )
+        theStart = theSplitEnd + 1
+        theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
+    end
+    table.insert( outResults, string.sub( self, theStart ) )
+    return outResults
+end
+
+function trimString( s )
+    local newString = string.match(s, "#.*#")
+
+    if newString == nil then
+        return nil
+    end
+    return string.gsub(newString, "#", "")
+end
+
+------------------------------------------------
+--- Methods
+------------------------------------------------
+function GuildEventsUI:CreateEvents()
+
+    ui.main = wm:CreateTopLevelWindow("GuildEventsEventsFragment")
+    ui.main:SetAnchor(TOPRIGHT, ZO_GroupList, TOPRIGHT, -40, 60)
+    ui.main:SetHidden(true)
+    ui.main:SetWidth(600)
+
+    --Event Controls
+    ui.lblNoEvents = wm:CreateControl("GuildEvents_lblNoEvents", ui.main, CT_LABEL)
+    ui.btnEvent1 = wm:CreateControl("GuildEvents_btnEvent1", ui.main, CT_BUTTON)
+    ui.btnEvent2 = wm:CreateControl("GuildEvents_btnEvent2", ui.main, CT_BUTTON)
+    ui.btnEvent3 = wm:CreateControl("GuildEvents_btnEvent3", ui.main, CT_BUTTON)
+    ui.btnEvent4 = wm:CreateControl("GuildEvents_btnEvent4", ui.main, CT_BUTTON)
+    ui.btnEvent5 = wm:CreateControl("GuildEvents_btnEvent5", ui.main, CT_BUTTON)
+    ui.btnEventDelete1 = wm:CreateControl("GuildEvents_btnEventDelete1", ui.main, CT_BUTTON)
+    ui.btnEventDelete2 = wm:CreateControl("GuildEvents_btnEventDelete2", ui.main, CT_BUTTON)
+    ui.btnEventDelete3 = wm:CreateControl("GuildEvents_btnEventDelete3", ui.main, CT_BUTTON)
+    ui.btnEventDelete4 = wm:CreateControl("GuildEvents_btnEventDelete4", ui.main, CT_BUTTON)
+    ui.btnEventDelete5 = wm:CreateControl("GuildEvents_btnEventDelete5", ui.main, CT_BUTTON)
+    ui.lblEvent1 = wm:CreateControl("GuildEvents_lblEvent1", ui.main, CT_LABEL)
+    ui.lblEvent2 = wm:CreateControl("GuildEvents_lblEvent2", ui.main, CT_LABEL)
+    ui.lblEvent3 = wm:CreateControl("GuildEvents_lblEvent3", ui.main, CT_LABEL)
+    ui.lblEvent4 = wm:CreateControl("GuildEvents_lblEvent4", ui.main, CT_LABEL)
+    ui.lblEvent5 = wm:CreateControl("GuildEvents_lblEvent5", ui.main, CT_LABEL)
+    ui.lblAttending1 = wm:CreateControl("GuildEvents_lblAttending1", ui.main, CT_LABEL)
+    ui.lblAttending2 = wm:CreateControl("GuildEvents_lblAttending2", ui.main, CT_LABEL)
+    ui.lblAttending3 = wm:CreateControl("GuildEvents_lblAttending3", ui.main, CT_LABEL)
+    ui.lblAttending4 = wm:CreateControl("GuildEvents_lblAttending4", ui.main, CT_LABEL)
+    ui.lblAttending5 = wm:CreateControl("GuildEvents_lblAttending5", ui.main, CT_LABEL)
+
+    --No Events label
+    ui.lblNoEvents:SetColor(1.0, 1.0, 1.0, 1)
+    ui.lblNoEvents:SetFont("ZoFontAlert")
+    ui.lblNoEvents:SetScale(1)
+    ui.lblNoEvents:SetWrapMode(TEX_MODE_CLAMP)
+    ui.lblNoEvents:SetDrawLayer(1)
+    ui.lblNoEvents:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 0,38)
+    ui.lblNoEvents:SetDimensions(600,20)
+    ui.lblNoEvents:SetText("No Events")
+
+    --Event 1
+    ui.btnEvent1:SetDimensions(20,20)
+    ui.btnEvent1:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 0,40)
+    ui.btnEvent1:SetAlpha(1)
+    ui.btnEvent1:SetDrawLayer(1)
+    ui.btnEvent1:SetFont("ZoFontAlert")
+    ui.btnEvent1:SetScale(1)
+    ui.btnEvent1:SetText("")
+    ui.btnEvent1:SetNormalTexture("/esoui/art/buttons/edit_up.dds")
+    ui.btnEvent1:SetMouseOverTexture("/esoui/art/buttons/edit_over.dds")
+    ui.btnEvent1:SetHidden(true)
+
+    ui.btnEventDelete1:SetDimensions(25,25)
+    ui.btnEventDelete1:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 580,40)
+    ui.btnEventDelete1:SetAlpha(1)
+    ui.btnEventDelete1:SetDrawLayer(1)
+    ui.btnEventDelete1:SetFont("ZoFontAlert")
+    ui.btnEventDelete1:SetScale(1)
+    ui.btnEventDelete1:SetText("")
+    ui.btnEventDelete1:SetNormalTexture("/esoui/art/buttons/minus_up.dds")
+    ui.btnEventDelete1:SetMouseOverTexture("/esoui/art/buttons/minus_over.dds")
+    ui.btnEventDelete1:SetHidden(true)
+    ui.btnEventDelete1:SetHandler("OnClicked", function(h)
+        GuildEventsUI:removeEvent(1)
+    end)
+
+    ui.lblEvent1:SetColor(1.0, 1.0, 1.0, 1)
+    ui.lblEvent1:SetFont("ZoFontAlert")
+    ui.lblEvent1:SetScale(1)
+    ui.lblEvent1:SetWrapMode(TEX_MODE_CLAMP)
+    ui.lblEvent1:SetDrawLayer(1)
+    ui.lblEvent1:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 25,38)
+    ui.lblEvent1:SetDimensions(530,20)
+
+    ui.lblAttending1:SetColor(0.8, 0.8, 0.8, 1)
+    ui.lblAttending1:SetFont("ZoFontAlert")
+    ui.lblAttending1:SetScale(0.6)
+    ui.lblAttending1:SetWrapMode(TEX_MODE_WRAP)
+    ui.lblAttending1:SetDrawLayer(1)
+    ui.lblAttending1:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 25,65)
+    ui.lblAttending1:SetDimensions(920,80)
+
+    --Event 2
+    ui.btnEvent2:SetDimensions(20,20)
+    ui.btnEvent2:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 0,100)
+    ui.btnEvent2:SetAlpha(1)
+    ui.btnEvent2:SetDrawLayer(1)
+    ui.btnEvent2:SetFont("ZoFontAlert")
+    ui.btnEvent2:SetScale(1)
+    ui.btnEvent2:SetText("")
+    ui.btnEvent2:SetNormalTexture("/esoui/art/buttons/edit_up.dds")
+    ui.btnEvent2:SetMouseOverTexture("/esoui/art/buttons/edit_over.dds")
+    ui.btnEvent2:SetHidden(true)
+
+    ui.btnEventDelete2:SetDimensions(25,25)
+    ui.btnEventDelete2:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 580,100)
+    ui.btnEventDelete2:SetAlpha(1)
+    ui.btnEventDelete2:SetDrawLayer(1)
+    ui.btnEventDelete2:SetFont("ZoFontAlert")
+    ui.btnEventDelete2:SetScale(1)
+    ui.btnEventDelete2:SetText("")
+    ui.btnEventDelete2:SetNormalTexture("/esoui/art/buttons/minus_up.dds")
+    ui.btnEventDelete2:SetMouseOverTexture("/esoui/art/buttons/minus_over.dds")
+    ui.btnEventDelete2:SetHidden(true)
+    ui.btnEventDelete2:SetHandler("OnClicked", function(h)
+        GuildEventsUI:removeEvent(2)
+    end)
+
+    ui.lblEvent2:SetColor(1.0, 1.0, 1.0, 1)
+    ui.lblEvent2:SetFont("ZoFontAlert")
+    ui.lblEvent2:SetScale(1)
+    ui.lblEvent2:SetWrapMode(TEX_MODE_CLAMP)
+    ui.lblEvent2:SetDrawLayer(1)
+    ui.lblEvent2:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 25,98)
+    ui.lblEvent2:SetDimensions(530,20)
+
+    ui.lblAttending2:SetColor(0.8, 0.8, 0.8, 1)
+    ui.lblAttending2:SetFont("ZoFontAlert")
+    ui.lblAttending2:SetScale(0.6)
+    ui.lblAttending2:SetWrapMode(TEX_MODE_WRAP)
+    ui.lblAttending2:SetDrawLayer(1)
+    ui.lblAttending2:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 25,125)
+    ui.lblAttending2:SetDimensions(920,80)
+
+    --Event 3
+    ui.btnEvent3:SetDimensions(20,20)
+    ui.btnEvent3:SetAnchor(TOPLEFT, suw, TOPLEFT, 0,160)
+    ui.btnEvent3:SetAlpha(1)
+    ui.btnEvent3:SetDrawLayer(1)
+    ui.btnEvent3:SetFont("ZoFontAlert")
+    ui.btnEvent3:SetScale(1)
+    ui.btnEvent3:SetText("")
+    ui.btnEvent3:SetNormalTexture("/esoui/art/buttons/edit_up.dds")
+    ui.btnEvent3:SetMouseOverTexture("/esoui/art/buttons/edit_over.dds")
+    ui.btnEvent3:SetHidden(true)
+
+    ui.btnEventDelete3:SetDimensions(25,25)
+    ui.btnEventDelete3:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 580,160)
+    ui.btnEventDelete3:SetAlpha(1)
+    ui.btnEventDelete3:SetDrawLayer(1)
+    ui.btnEventDelete3:SetFont("ZoFontAlert")
+    ui.btnEventDelete3:SetScale(1)
+    ui.btnEventDelete3:SetText("")
+    ui.btnEventDelete3:SetNormalTexture("/esoui/art/buttons/minus_up.dds")
+    ui.btnEventDelete3:SetMouseOverTexture("/esoui/art/buttons/minus_over.dds")
+    ui.btnEventDelete3:SetHidden(true)
+    ui.btnEventDelete3:SetHandler("OnClicked", function(h)
+        GuildEventsUI:removeEvent(3)
+    end)
+
+    ui.lblEvent3:SetColor(1.0, 1.0, 1.0, 1)
+    ui.lblEvent3:SetFont("ZoFontAlert")
+    ui.lblEvent3:SetScale(1)
+    ui.lblEvent3:SetWrapMode(TEX_MODE_CLAMP)
+    ui.lblEvent3:SetDrawLayer(1)
+    ui.lblEvent3:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 25,158)
+    ui.lblEvent3:SetDimensions(530,20)
+
+    ui.lblAttending3:SetColor(0.8, 0.8, 0.8, 1)
+    ui.lblAttending3:SetFont("ZoFontAlert")
+    ui.lblAttending3:SetScale(0.6)
+    ui.lblAttending3:SetWrapMode(TEX_MODE_WRAP)
+    ui.lblAttending3:SetDrawLayer(1)
+    ui.lblAttending3:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 25,185)
+    ui.lblAttending3:SetDimensions(920,80)
+
+    --Event 4
+    ui.btnEvent4:SetDimensions(20,20)
+    ui.btnEvent4:SetAnchor(TOPLEFT, suw, TOPLEFT, 0,220)
+    ui.btnEvent4:SetAlpha(1)
+    ui.btnEvent4:SetDrawLayer(1)
+    ui.btnEvent4:SetFont("ZoFontAlert")
+    ui.btnEvent4:SetScale(1)
+    ui.btnEvent4:SetText("")
+    ui.btnEvent4:SetNormalTexture("/esoui/art/buttons/edit_up.dds")
+    ui.btnEvent4:SetMouseOverTexture("/esoui/art/buttons/edit_over.dds")
+    ui.btnEvent4:SetHidden(true)
+
+    ui.btnEventDelete4:SetDimensions(25,25)
+    ui.btnEventDelete4:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 580,220)
+    ui.btnEventDelete4:SetAlpha(1)
+    ui.btnEventDelete4:SetDrawLayer(1)
+    ui.btnEventDelete4:SetFont("ZoFontAlert")
+    ui.btnEventDelete4:SetScale(1)
+    ui.btnEventDelete4:SetText("")
+    ui.btnEventDelete4:SetNormalTexture("/esoui/art/buttons/minus_up.dds")
+    ui.btnEventDelete4:SetMouseOverTexture("/esoui/art/buttons/minus_over.dds")
+    ui.btnEventDelete4:SetHidden(true)
+    ui.btnEventDelete4:SetHandler("OnClicked", function(h)
+        GuildEventsUI:removeEvent(4)
+    end)
+
+    ui.lblEvent4:SetColor(1.0, 1.0, 1.0, 1)
+    ui.lblEvent4:SetFont("ZoFontAlert")
+    ui.lblEvent4:SetScale(1)
+    ui.lblEvent4:SetWrapMode(TEX_MODE_CLAMP)
+    ui.lblEvent4:SetDrawLayer(1)
+    ui.lblEvent4:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 25,218)
+    ui.lblEvent4:SetDimensions(530,20)
+
+    ui.lblAttending4:SetColor(0.8, 0.8, 0.8, 1)
+    ui.lblAttending4:SetFont("ZoFontAlert")
+    ui.lblAttending4:SetScale(0.6)
+    ui.lblAttending4:SetWrapMode(TEX_MODE_WRAP)
+    ui.lblAttending4:SetDrawLayer(1)
+    ui.lblAttending4:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 25,245)
+    ui.lblAttending4:SetDimensions(920,80)
+
+    --Event 5
+    ui.btnEvent5:SetDimensions(20,20)
+    ui.btnEvent5:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 0,280)
+    ui.btnEvent5:SetAlpha(1)
+    ui.btnEvent5:SetDrawLayer(1)
+    ui.btnEvent5:SetFont("ZoFontAlert")
+    ui.btnEvent5:SetScale(1)
+    ui.btnEvent5:SetText("")
+    ui.btnEvent5:SetNormalTexture("/esoui/art/buttons/edit_up.dds")
+    ui.btnEvent5:SetMouseOverTexture("/esoui/art/buttons/edit_over.dds")
+    ui.btnEvent5:SetHidden(true)
+
+    ui.btnEventDelete5:SetDimensions(25,25)
+    ui.btnEventDelete5:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 580,280)
+    ui.btnEventDelete5:SetAlpha(1)
+    ui.btnEventDelete5:SetDrawLayer(1)
+    ui.btnEventDelete5:SetFont("ZoFontAlert")
+    ui.btnEventDelete5:SetScale(1)
+    ui.btnEventDelete5:SetText("")
+    ui.btnEventDelete5:SetNormalTexture("/esoui/art/buttons/minus_up.dds")
+    ui.btnEventDelete5:SetMouseOverTexture("/esoui/art/buttons/minus_over.dds")
+    ui.btnEventDelete5:SetHidden(true)
+    ui.btnEventDelete5:SetHandler("OnClicked", function(h)
+        GuildEventsUI:removeEvent(5)
+    end)
+
+    ui.lblEvent5:SetColor(1.0, 1.0, 1.0, 1)
+    ui.lblEvent5:SetFont("ZoFontAlert")
+    ui.lblEvent5:SetScale(1)
+    ui.lblEvent5:SetWrapMode(TEX_MODE_CLAMP)
+    ui.lblEvent5:SetDrawLayer(1)
+    ui.lblEvent5:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 25,278)
+    ui.lblEvent5:SetDimensions(530,20)
+
+    ui.lblAttending5:SetColor(0.8, 0.8, 0.8, 1)
+    ui.lblAttending5:SetFont("ZoFontAlert")
+    ui.lblAttending5:SetScale(0.6)
+    ui.lblAttending5:SetWrapMode(TEX_MODE_WRAP)
+    ui.lblAttending5:SetDrawLayer(1)
+    ui.lblAttending5:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 25,305)
+    ui.lblAttending5:SetDimensions(920,80)
+
+    GUILD_EVENTS_EVENTS_FRAGMENT = ZO_FadeSceneFragment:New(ui.main)
+
+    GuildEventsUI.selectedGuildId = 1 --Set to 1 as default
+    GuildEventsUI:GetEvents()
+end
+
+function GuildEventsUI:GetEvents()
+    local memberIsAdmin = DoesPlayerHaveGuildPermission(GuildEventsUI.selectedGuildId, 6)
+
+    --Hide event buttons
+    ui.btnEvent1:SetHidden(true)
+    ui.btnEvent2:SetHidden(true)
+    ui.btnEvent3:SetHidden(true)
+    ui.btnEvent4:SetHidden(true)
+    ui.btnEvent5:SetHidden(true)
+    ui.btnEventDelete1:SetHidden(true)
+    ui.btnEventDelete2:SetHidden(true)
+    ui.btnEventDelete3:SetHidden(true)
+    ui.btnEventDelete4:SetHidden(true)
+    ui.btnEventDelete5:SetHidden(true)
+    ui.lblEvent1:SetHidden(true)
+    ui.lblEvent2:SetHidden(true)
+    ui.lblEvent3:SetHidden(true)
+    ui.lblEvent4:SetHidden(true)
+    ui.lblEvent5:SetHidden(true)
+    ui.lblAttending1:SetHidden(true)
+    ui.lblAttending2:SetHidden(true)
+    ui.lblAttending3:SetHidden(true)
+    ui.lblAttending4:SetHidden(true)
+    ui.lblAttending5:SetHidden(true)
+
+    ui.events = GuildEventsUI:loadEvents()
+
+    if table.getn(ui.events) > 0 then
+
+        ui.lblNoEvents:SetHidden(true)
+
+        local memberIndex = GetPlayerGuildMemberIndex(GuildEventsUI.selectedGuildId)
+
+        for i=1, table.getn(ui.events) do
+
+            local eventId, eventTitle, eventDate, eventTime  = GuildEventsUI:getEvent(ui.events[i])
+            local isSignedUp = GuildEventsUI:isSignedUp(memberIndex, eventId)
+
+            if i == 1 then
+                ui.lblEvent1:SetText(eventTitle..": "..eventDate.." at "..eventTime)
+                ui.lblEvent1:SetHidden(false)
+                ui.btnEvent1:SetHidden(false)
+                ui.lblAttending1:SetHidden(false)
+                ui.lblAttending1:SetText(GuildEventsUI:getAttending(eventId))
+
+                if memberIsAdmin then
+                    ui.btnEventDelete1:SetHidden(false)
+                end
+
+                if isSignedUp then
+                    ui.btnEvent1:SetNormalTexture("/esoui/art/buttons/checkbox_checked.dds")
+                    ui.btnEvent1:SetMouseOverTexture("/esoui/art/buttons/checkbox_mouseover.dds")
+                    ui.btnEvent1:SetHandler("OnClicked", function(h)
+                        GuildEventsUI:unsignUpForEvent(ui.btnEvent1, ui.lblAttending1, eventId)
+                    end)
+                else
+                    ui.btnEvent1:SetNormalTexture("/esoui/art/buttons/checkbox_unchecked.dds")
+                    ui.btnEvent1:SetMouseOverTexture("/esoui/art/buttons/checkbox_mouseover.dds")
+                    ui.btnEvent1:SetHandler("OnClicked", function(h)
+                        GuildEventsUI:signUpForEvent(ui.btnEvent1, ui.lblAttending1, eventId)
+                    end)
+                end
+
+            elseif i == 2 then
+                ui.lblEvent2:SetText(eventTitle..": "..eventDate.." at "..eventTime)
+                ui.lblEvent2:SetHidden(false)
+                ui.btnEvent2:SetHidden(false)
+                ui.lblAttending2:SetHidden(false)
+                ui.lblAttending2:SetText(GuildEventsUI:getAttending(eventId))
+
+                if memberIsAdmin then
+                    ui.btnEventDelete2:SetHidden(false)
+                end
+
+                if isSignedUp then
+                    ui.btnEvent2:SetNormalTexture("/esoui/art/buttons/checkbox_checked.dds")
+                    ui.btnEvent2:SetMouseOverTexture("/esoui/art/buttons/checkbox_mouseover.dds")
+                    ui.btnEvent2:SetHandler("OnClicked", function(h)
+                        GuildEventsUI:unsignUpForEvent(ui.btnEvent2, ui.lblAttending2, eventId)
+                    end)
+                else
+                    ui.btnEvent2:SetNormalTexture("/esoui/art/buttons/checkbox_unchecked.dds")
+                    ui.btnEvent2:SetMouseOverTexture("/esoui/art/buttons/checkbox_mouseover.dds")
+                    ui.btnEvent2:SetHandler("OnClicked", function(h)
+                        GuildEventsUI:signUpForEvent(ui.btnEvent2, ui.lblAttending2, eventId)
+                    end)
+                end
+
+            elseif i == 3 then
+                ui.lblEvent3:SetText(eventTitle..": "..eventDate.." at "..eventTime)
+                ui.lblEvent3:SetHidden(false)
+                ui.btnEvent3:SetHidden(false)
+                ui.lblAttending3:SetHidden(false)
+                ui.lblAttending3:SetText(GuildEventsUI:getAttending(eventId))
+
+                if memberIsAdmin then
+                    ui.btnEventDelete3:SetHidden(false)
+                end
+
+                if isSignedUp then
+                    ui.btnEvent3:SetNormalTexture("/esoui/art/buttons/checkbox_checked.dds")
+                    ui.btnEvent3:SetMouseOverTexture("/esoui/art/buttons/checkbox_mouseover.dds")
+                    ui.btnEvent3:SetHandler("OnClicked", function(h)
+                        GuildEventsUI:unsignUpForEvent(ui.btnEvent3, ui.lblAttending3, eventId)
+                    end)
+                else
+                    ui.btnEvent3:SetNormalTexture("/esoui/art/buttons/checkbox_unchecked.dds")
+                    ui.btnEvent3:SetMouseOverTexture("/esoui/art/buttons/checkbox_mouseover.dds")
+                    ui.btnEvent3:SetHandler("OnClicked", function(h)
+                        GuildEventsUI:signUpForEvent(ui.btnEvent3, ui.lblAttending3, eventId)
+                    end)
+                end
+
+            elseif i == 4 then
+                ui.lblEvent4:SetText(eventTitle..": "..eventDate.." at "..eventTime)
+                ui.lblEvent4:SetHidden(false)
+                ui.btnEvent4:SetHidden(false)
+                ui.lblAttending4:SetHidden(false)
+                ui.lblAttending4:SetText(GuildEventsUI:getAttending(eventId))
+
+                if memberIsAdmin then
+                    ui.btnEventDelete4:SetHidden(false)
+                end
+
+                if isSignedUp then
+                    ui.btnEvent4:SetNormalTexture("/esoui/art/buttons/checkbox_checked.dds")
+                    ui.btnEvent4:SetMouseOverTexture("/esoui/art/buttons/checkbox_mouseover.dds")
+                    ui.btnEvent4:SetHandler("OnClicked", function(h)
+                        GuildEventsUI:unsignUpForEvent(ui.btnEvent4, ui.lblAttending4, eventId)
+                    end)
+                else
+                    ui.btnEvent4:SetNormalTexture("/esoui/art/buttons/checkbox_unchecked.dds")
+                    ui.btnEvent4:SetMouseOverTexture("/esoui/art/buttons/checkbox_mouseover.dds")
+                    ui.btnEvent4:SetHandler("OnClicked", function(h)
+                        GuildEventsUI:signUpForEvent(ui.btnEvent4, ui.lblAttending4, eventId)
+                    end)
+                end
+
+            elseif i == 5 then
+                ui.lblEvent5:SetText(eventTitle..": "..eventDate.." at "..eventTime)
+                ui.lblEvent5:SetHidden(false)
+                ui.btnEvent5:SetHidden(false)
+                ui.lblAttending5:SetHidden(false)
+                ui.lblAttending5:SetText(GuildEventsUI:getAttending(eventId))
+
+                if memberIsAdmin then
+                    ui.btnEventDelete5:SetHidden(false)
+                end
+
+                if isSignedUp then
+                    ui.btnEvent5:SetNormalTexture("/esoui/art/buttons/checkbox_checked.dds")
+                    ui.btnEvent5:SetMouseOverTexture("/esoui/art/buttons/checkbox_mouseover.dds")
+                    ui.btnEvent5:SetHandler("OnClicked", function(h)
+                        GuildEventsUI:unsignUpForEvent(ui.btnEvent5, ui.lblAttending5, eventId)
+                    end)
+                else
+                    ui.btnEvent5:SetNormalTexture("/esoui/art/buttons/checkbox_unchecked.dds")
+                    ui.btnEvent5:SetMouseOverTexture("/esoui/art/buttons/checkbox_mouseover.dds")
+                    ui.btnEvent5:SetHandler("OnClicked", function(h)
+                        GuildEventsUI:signUpForEvent(ui.btnEvent5, ui.lblAttending5, eventId)
+                    end)
+                end
+            end
+        end
+    else
+        ui.lblNoEvents:SetText("No events for "..GetGuildName(GuildEventsUI.selectedGuildId))
+        ui.lblNoEvents:SetHidden(false)
+    end
+end
+
+--loadEvents: Loads the events for selected guild into ui.events
+function GuildEventsUI:loadEvents()
+    local motd = trimString( GetGuildMotD(GuildEventsUI.selectedGuildId) )
+    local events = {}
+    local count = 1
+    local theStart = 1
+
+    if motd == nil then
+        --Do nothing
+    else
+        if string.find(motd, "\n\n") == nil then
+            events[count] = motd
+        else
+            local theSplitStart, theSplitEnd = string.find( motd, "\n\n", theStart )
+
+            while theSplitStart do
+                events[count] =  string.sub( motd, theStart, theSplitStart-1 )
+                theStart = theSplitEnd + 1
+                theSplitStart, theSplitEnd = string.find( motd, "\n\n", theStart )
+                count = count + 1
+            end
+
+            events[count] = string.sub( motd, theStart )
+        end
+    end
+
+    return events
+end
+
+--getEvent(eventDetails): Returns array of [id],[title],[date],[time]
+function GuildEventsUI:getEvent(eventDetails)
+    local count = 1
+    local theStart = 1
+    local theSplitStart, theSplitEnd = string.find( eventDetails, "\n", theStart )
+    local event = {}
+
+    while theSplitStart do
+        event[count] =  string.sub( eventDetails, theStart, theSplitStart-1 )
+        theStart = theSplitEnd + 1
+        theSplitStart, theSplitEnd = string.find( eventDetails, "\n", theStart )
+
+        if count == 1 then
+            --Split and add event ID and title
+            local idAndTitle = event[count]
+            local theIDSplitStart, theIDSplitEnd = string.find( idAndTitle, "-", 1 )
+            event[count] =  string.sub( idAndTitle, 1, theIDSplitStart-1 )
+            count = count + 1
+            event[count] =  string.sub( idAndTitle, theIDSplitEnd + 1)
+        end
+
+        count = count + 1
+    end
+
+    event[count] = string.sub( eventDetails, theStart )
+
+    return event[1],event[2],event[3],event[4]
+end
+
+--isSignedUp: Returns true if user is signed up
+function GuildEventsUI:isSignedUp(memberIndex, eventId)
+    local name, note = GetGuildMemberInfo(GuildEventsUI.selectedGuildId, memberIndex)
+    local memberEvents = trimString( note )
+
+    if memberEvents == nil then
+        return false
+    end
+
+    local events = memberEvents:split(";")
+    for i = 1, #events do
+        if events[i] == eventId then
+            return true
+        end
+    end
+
+    return false
+end
+
+--signUpForEvent: Signs the member up for the event
+function GuildEventsUI:signUpForEvent(button, lblAttending, eventId)
+    --signup format #[eventId];[eventId]#
+
+    local name, note = GetGuildMemberInfo(GuildEventsUI.selectedGuildId, GetPlayerGuildMemberIndex(GuildEventsUI.selectedGuildId))
+    local memberEvents = trimString( note )
+    local newNote = ""
+
+    if memberEvents == nil then
+        newNote = note.."\n#"..eventId.."#"
+    else
+        newNote = string.sub(note, 1, string.find(note, "#") - 1)
+
+        if memberEvents == "" then
+            newNote = newNote.."#"..eventId.."#"
+        else
+            newNote = newNote.."#"..memberEvents..";"..eventId.."#"
+        end
+    end
+
+    SetGuildMemberNote(GuildEventsUI.selectedGuildId, GetPlayerGuildMemberIndex(GuildEventsUI.selectedGuildId), newNote)
+
+    button:SetNormalTexture("/esoui/art/buttons/checkbox_checked.dds")
+    button:SetMouseOverTexture("/esoui/art/buttons/checkbox_mouseover.dds")
+    button:SetHandler("OnClicked", function(h)
+        GuildEventsUI:unsignUpForEvent(button, lblAttending, eventId)
+    end)
+
+    --Add to attending
+    local attending = lblAttending:GetText()
+    if attending == "No attendees" then
+        lblAttending:SetText(name)
+    else
+        lblAttending:SetText(attending.."\n"..name)
+    end
+end
+
+--unsignUpForEvent: Removed the player from being signed up from that event
+function GuildEventsUI:unsignUpForEvent(button, lblAttending, eventId)
+    local name, note = GetGuildMemberInfo(GuildEventsUI.selectedGuildId, GetPlayerGuildMemberIndex(GuildEventsUI.selectedGuildId))
+    local memberEvents = trimString( note )
+    local newNote = ""
+
+    newNote = string.sub(note, 1, string.find(note, "#") - 1).."#"
+
+    local events = memberEvents:split(";")
+    local count = 0
+    for i = 1, #events do
+        if events[i] ~= eventId then
+            if count == 0 then
+                newNote = newNote..events[i]
+                count = count + 1
+            else
+                newNote = newNote..";"..events[i]
+            end
+        end
+    end
+
+    newNote = newNote.."#"
+
+    SetGuildMemberNote(GuildEventsUI.selectedGuildId, GetPlayerGuildMemberIndex(GuildEventsUI.selectedGuildId), newNote)
+
+    button:SetNormalTexture("/esoui/art/buttons/checkbox_unchecked.dds")
+    button:SetMouseOverTexture("/esoui/art/buttons/checkbox_mouseover.dds")
+    button:SetHandler("OnClicked", function(h)
+        GuildEventsUI:signUpForEvent(button, lblAttending, eventId)
+    end)
+
+    --Remove from attending
+    local attending = GuildEventsUI:getAttending(eventId)
+    local members = attending:split(",")
+    local count = 0
+    for i = 1, #members do
+        if members[i] ~= name then
+            if count == 0 then
+                attending = members[i]
+                count = count + 1
+            else
+                attending = attending..","..members[i]
+            end
+        end
+    end
+
+    lblAttending:SetText(attending)
+end
+
+--getAttending: Returns an array of attendees (account name) for an even
+function GuildEventsUI:getAttending(eventId)
+    local totalMembers = GetNumGuildMembers(GuildEventsUI.selectedGuildId)
+    local count = 0
+    local attending = "No attendees"
+
+    for i = 1, totalMembers do
+        local name, note = GetGuildMemberInfo(GuildEventsUI.selectedGuildId, i)
+        local isAttending = GuildEventsUI:isSignedUp(i, eventId)
+
+        if isAttending then
+            if count == 0 then
+                attending = name
+                count = count + 1
+            else
+                attending = attending..","..name
+            end
+        end
+    end
+
+    return attending
+end
+
+--removeEvent: Removes event and users from being signed up for event
+function GuildEventsUI:removeEvent(eventIndex)
+    local motd = trimString( GetGuildMotD(GuildEventsUI.selectedGuildId) )
+    local events = {}
+    local count = 1
+    local theStart = 1
+    local id = GuildEventsUI:getEvent(ui.events[eventIndex])
+    local eventId = tonumber(id)
+
+    if motd == nil then
+        --Do nothing
+    else
+        if string.find(motd, "\n\n") == nil then
+            --Do nothing
+        else
+            local theSplitStart, theSplitEnd = string.find( motd, "\n\n", theStart )
+
+            for i = 1, #ui.events do
+                if i ~= eventIndex then
+                    events[count] =  ui.events[i]
+                    count = count + 1
+                end
+            end
+        end
+    end
+
+    ui.events = events
+
+    GuildEventsUI:saveEvents()
+
+    --Remove users from signed up event
+    local miliseconds = 0
+    for i = 1, GetNumGuildMembers(GuildEventsUI.selectedGuildId) do
+        local name, note = GetGuildMemberInfo(GuildEventsUI.selectedGuildId, i)
+        local memberEvents = trimString( note )
+        local newNote = ""
+
+        --check if member has # at all
+        if string.find(note, "\n#") == nil then
+            --no changes needed
+        else
+            newNote = string.sub(note, 1, string.find(note, "#") - 1).."#"
+            local events = memberEvents:split(";")
+            local count = 0
+            for i = 1, #events do
+                local id = tonumber(events[i])
+                if id ~= eventId then
+                    if count == 0 then
+                        newNote = newNote..events[i]
+                        count = count + 1
+                    else
+                        newNote = newNote..";"..events[i]
+                    end
+                end
+            end
+            newNote = newNote.."#"
+
+            local noteCompare = "\n#"..memberEvents.."#"
+            if noteCompare ~= newNote then
+                zo_callLater(function () SetGuildMemberNote(GuildEventsUI.selectedGuildId, i, newNote) end, miliseconds)
+                miliseconds = miliseconds + 10000
+            end
+        end
+    end
+end
+
+--saveEvents: Saves events to the guild MOTD
+function GuildEventsUI:saveEvents()
+    --event format #[id]-[title]\n[date]\n[time]\n\n[id]-[title]\n[date]\n[time]#'
+
+    local motd = GetGuildMotD(GuildEventsUI.selectedGuildId)
+
+    if string.find(motd, "#") == nil then
+        motd = motd.."\n#"
+    end
+
+    motd = string.sub(motd, 1, string.find(motd, "\n#") - 1)
+
+    local newMotd = ""
+
+    if table.getn(ui.events) > 0 then
+        newMotd = motd.."\n#"
+
+        for i = 1, #ui.events do
+            if i == 1 then
+                newMotd = newMotd..ui.events[i]
+            else
+                newMotd = newMotd.."\n\n"..ui.events[i]
+            end
+        end
+
+        newMotd = newMotd.."#"
+    else
+        newMotd = motd
+    end
+
+    SetGuildMotD(GuildEventsUI.selectedGuildId, newMotd)
+end
