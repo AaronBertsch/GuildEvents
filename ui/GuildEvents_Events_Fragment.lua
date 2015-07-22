@@ -34,6 +34,58 @@ function trimString( s )
 end
 
 ------------------------------------------------
+--- Dialog functions
+------------------------------------------------
+
+--function that shows dialog for confirmation of deleting an event
+local function GuildEventsEventDeleteConfirmationInitialize(control)
+    local content   = GetControl(control, "Content")
+    local acceptBtn = GetControl(control, "Accept")
+    local cancelBtn = GetControl(control, "Cancel")
+    local descLabel = GetControl(content, "Text")
+
+    ZO_Dialogs_RegisterCustomDialog("GUILDEVENTS_EVENT_DELETE_DIALOG", {
+        customControl = control,
+        title = { text = "Delete Event"  },
+        mainText = { text = "Delete this event?" },
+        setup = function(dialog, data)
+            --preventerVars.askBeforeEquipDialogRetVal = false
+            --Format the dialog text: Show the item's name inside
+            --local itemLink = GetItemLink(data.bag, data.slot)
+            --local params = {itemLink}
+            --local formattedText = GetFormattedDialogText(localizationVars.fcois_loc["options_anti_equip_question"], params)
+            descLabel:SetText("Are you sure you want to delete this event?")
+        end,
+        noChoiceCallback = function(dialog)
+            --Simulate the button "cancel" click
+            --preventerVars.askBeforeEquipDialogRetVal = false
+        end,
+        buttons =
+        {
+            {
+                control = acceptBtn,
+                text = SI_DIALOG_ACCEPT,
+                keybind = "DIALOG_PRIMARY",
+                callback = function(dialog) GuildEventsUI:removeEvent(dialog) end,
+            },
+            {
+                control = cancelBtn,
+                text = SI_DIALOG_CANCEL,
+                keybind = "DIALOG_NEGATIVE",
+                callback = function(dialog)
+                    --preventerVars.askBeforeEquipDialogRetVal = false
+                end,
+            },
+        },
+    })
+end
+
+--Shows event delete confirmation window
+local function confirmEventDelete(eventIndex)
+    ZO_Dialogs_ShowDialog("GUILDEVENTS_EVENT_DELETE_DIALOG", {event=eventIndex})
+end
+
+------------------------------------------------
 --- Methods
 ------------------------------------------------
 function GuildEventsUI:CreateEvents()
@@ -42,6 +94,9 @@ function GuildEventsUI:CreateEvents()
     ui.main:SetAnchor(TOPRIGHT, ZO_GroupList, TOPRIGHT, -40, 60)
     ui.main:SetHidden(true)
     ui.main:SetWidth(600)
+
+    --Event Delete Confirmation Dialog
+    GuildEventsEventDeleteConfirmationInitialize(GuildEventsEventDeleteConfirmation)
 
     --Event Controls
     ui.lblNoEvents = wm:CreateControl("GuildEvents_lblNoEvents", ui.main, CT_LABEL)
@@ -104,7 +159,8 @@ function GuildEventsUI:CreateEvents()
     ui.btnEventDelete1:SetMouseOverTexture("/esoui/art/buttons/minus_over.dds")
     ui.btnEventDelete1:SetHidden(true)
     ui.btnEventDelete1:SetHandler("OnClicked", function(h)
-        GuildEventsUI:removeEvent(1)
+        --GuildEventsUI:removeEvent(1)
+        confirmEventDelete(1)
     end)
 
     ui.btnEventInvite1:SetDimensions(50,45)
@@ -157,7 +213,8 @@ function GuildEventsUI:CreateEvents()
     ui.btnEventDelete2:SetMouseOverTexture("/esoui/art/buttons/minus_over.dds")
     ui.btnEventDelete2:SetHidden(true)
     ui.btnEventDelete2:SetHandler("OnClicked", function(h)
-        GuildEventsUI:removeEvent(2)
+        --GuildEventsUI:removeEvent(2)
+        confirmEventDelete(2)
     end)
 
     ui.btnEventInvite2:SetDimensions(50,45)
@@ -210,7 +267,8 @@ function GuildEventsUI:CreateEvents()
     ui.btnEventDelete3:SetMouseOverTexture("/esoui/art/buttons/minus_over.dds")
     ui.btnEventDelete3:SetHidden(true)
     ui.btnEventDelete3:SetHandler("OnClicked", function(h)
-        GuildEventsUI:removeEvent(3)
+        --GuildEventsUI:removeEvent(3)
+        confirmEventDelete(3)
     end)
 
     ui.btnEventInvite3:SetDimensions(50,45)
@@ -263,7 +321,8 @@ function GuildEventsUI:CreateEvents()
     ui.btnEventDelete4:SetMouseOverTexture("/esoui/art/buttons/minus_over.dds")
     ui.btnEventDelete4:SetHidden(true)
     ui.btnEventDelete4:SetHandler("OnClicked", function(h)
-        GuildEventsUI:removeEvent(4)
+        --GuildEventsUI:removeEvent(4)
+        confirmEventDelete(4)
     end)
 
     ui.btnEventInvite4:SetDimensions(50,45)
@@ -316,7 +375,8 @@ function GuildEventsUI:CreateEvents()
     ui.btnEventDelete5:SetMouseOverTexture("/esoui/art/buttons/minus_over.dds")
     ui.btnEventDelete5:SetHidden(true)
     ui.btnEventDelete5:SetHandler("OnClicked", function(h)
-        GuildEventsUI:removeEvent(5)
+        --GuildEventsUI:removeEvent(5)
+        confirmEventDelete(5)
     end)
 
     ui.btnEventInvite5:SetDimensions(50,45)
@@ -772,66 +832,70 @@ function GuildEventsUI:getAttendingText(eventId)
 end
 
 --removeEvent: Removes event and users from being signed up for event
-function GuildEventsUI:removeEvent(eventIndex)
-    local motd = trimString( GetGuildMotD(GuildEventsUI.selectedGuildId) )
-    local events = {}
-    local count = 1
-    local theStart = 1
-    local id = GuildEventsUI:getEvent(ui.events[eventIndex])
-    local eventId = tonumber(id)
+function GuildEventsUI:removeEvent(dialog)
+    if dialog.data.event ~= nil then
+        --Delete event
+        local eventIndex = dialog.data.event
+        local motd = trimString( GetGuildMotD(GuildEventsUI.selectedGuildId) )
+        local events = {}
+        local count = 1
+        local theStart = 1
+        local id = GuildEventsUI:getEvent(ui.events[eventIndex])
+        local eventId = tonumber(id)
 
-    if motd == nil then
-        --Do nothing
-    else
-        if string.find(motd, "\n\n") == nil then
+        if motd == nil then
             --Do nothing
         else
-            local theSplitStart, theSplitEnd = string.find( motd, "\n\n", theStart )
+            if string.find(motd, "\n\n") == nil then
+                --Do nothing
+            else
+                local theSplitStart, theSplitEnd = string.find( motd, "\n\n", theStart )
 
-            for i = 1, #ui.events do
-                if i ~= eventIndex then
-                    events[count] =  ui.events[i]
-                    count = count + 1
-                end
-            end
-        end
-    end
-
-    ui.events = events
-
-    GuildEventsUI:saveEvents()
-
-    --Remove users from signed up event
-    local miliseconds = 0
-    for i = 1, GetNumGuildMembers(GuildEventsUI.selectedGuildId) do
-        local name, note = GetGuildMemberInfo(GuildEventsUI.selectedGuildId, i)
-        local memberEvents = trimString( note )
-        local newNote = ""
-
-        --check if member has # at all
-        if string.find(note, "\n#") == nil then
-            --no changes needed
-        else
-            newNote = string.sub(note, 1, string.find(note, "#") - 1).."#"
-            local events = memberEvents:split(";")
-            local count = 0
-            for i = 1, #events do
-                local id = tonumber(events[i])
-                if id ~= eventId then
-                    if count == 0 then
-                        newNote = newNote..events[i]
+                for i = 1, #ui.events do
+                    if i ~= eventIndex then
+                        events[count] =  ui.events[i]
                         count = count + 1
-                    else
-                        newNote = newNote..";"..events[i]
                     end
                 end
             end
-            newNote = newNote.."#"
+        end
 
-            local noteCompare = "\n#"..memberEvents.."#"
-            if noteCompare ~= newNote then
-                zo_callLater(function () SetGuildMemberNote(GuildEventsUI.selectedGuildId, i, newNote) end, miliseconds)
-                miliseconds = miliseconds + 10000
+        ui.events = events
+
+        GuildEventsUI:saveEvents()
+
+        --Remove users from signed up event
+        local miliseconds = 0
+        for i = 1, GetNumGuildMembers(GuildEventsUI.selectedGuildId) do
+            local name, note = GetGuildMemberInfo(GuildEventsUI.selectedGuildId, i)
+            local memberEvents = trimString( note )
+            local newNote = ""
+
+            --check if member has # at all
+            if string.find(note, "\n#") == nil then
+                --no changes needed
+            else
+                newNote = string.sub(note, 1, string.find(note, "#") - 1).."#"
+                local events = memberEvents:split(";")
+                local count = 0
+                for i = 1, #events do
+                    local id = tonumber(events[i])
+                    if id ~= eventId then
+                        if count == 0 then
+                            newNote = newNote..events[i]
+                            count = count + 1
+                        else
+                            newNote = newNote..";"..events[i]
+                        end
+                    end
+                end
+                newNote = newNote.."#"
+
+                local noteCompare = "\n#"..memberEvents.."#"
+                if noteCompare ~= newNote then
+                    zo_callLater(function () SetGuildMemberNote(GuildEventsUI.selectedGuildId, i, newNote) end, miliseconds)
+                    miliseconds = miliseconds + 10000
+                end
             end
         end
     end
