@@ -55,6 +55,11 @@ function GuildEventsUI:CreateEvents()
     ui.btnEventDelete3 = wm:CreateControl("GuildEvents_btnEventDelete3", ui.main, CT_BUTTON)
     ui.btnEventDelete4 = wm:CreateControl("GuildEvents_btnEventDelete4", ui.main, CT_BUTTON)
     ui.btnEventDelete5 = wm:CreateControl("GuildEvents_btnEventDelete5", ui.main, CT_BUTTON)
+    ui.btnEventInvite1 = wm:CreateControl("GuildEvents_btnEventInvite1", ui.main, CT_BUTTON)
+    ui.btnEventInvite2 = wm:CreateControl("GuildEvents_btnEventInvite2", ui.main, CT_BUTTON)
+    ui.btnEventInvite3 = wm:CreateControl("GuildEvents_btnEventInvite3", ui.main, CT_BUTTON)
+    ui.btnEventInvite4 = wm:CreateControl("GuildEvents_btnEventInvite4", ui.main, CT_BUTTON)
+    ui.btnEventInvite5 = wm:CreateControl("GuildEvents_btnEventInvite5", ui.main, CT_BUTTON)
     ui.lblEvent1 = wm:CreateControl("GuildEvents_lblEvent1", ui.main, CT_LABEL)
     ui.lblEvent2 = wm:CreateControl("GuildEvents_lblEvent2", ui.main, CT_LABEL)
     ui.lblEvent3 = wm:CreateControl("GuildEvents_lblEvent3", ui.main, CT_LABEL)
@@ -102,6 +107,17 @@ function GuildEventsUI:CreateEvents()
         GuildEventsUI:removeEvent(1)
     end)
 
+    ui.btnEventInvite1:SetDimensions(50,45)
+    ui.btnEventInvite1:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 540,30)
+    ui.btnEventInvite1:SetAlpha(1)
+    ui.btnEventInvite1:SetDrawLayer(1)
+    ui.btnEventInvite1:SetFont("ZoFontAlert")
+    ui.btnEventInvite1:SetScale(1)
+    ui.btnEventInvite1:SetText("")
+    ui.btnEventInvite1:SetNormalTexture("/esoui/art/hud/radialicon_invitegroup_up.dds")
+    ui.btnEventInvite1:SetMouseOverTexture("/esoui/art/hud/radialicon_invitegroup_over.dds")
+    ui.btnEventInvite1:SetHidden(true)
+
     ui.lblEvent1:SetColor(1.0, 1.0, 1.0, 1)
     ui.lblEvent1:SetFont("ZoFontAlert")
     ui.lblEvent1:SetScale(1)
@@ -143,6 +159,17 @@ function GuildEventsUI:CreateEvents()
     ui.btnEventDelete2:SetHandler("OnClicked", function(h)
         GuildEventsUI:removeEvent(2)
     end)
+
+    ui.btnEventInvite2:SetDimensions(50,45)
+    ui.btnEventInvite2:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 540,90)
+    ui.btnEventInvite2:SetAlpha(1)
+    ui.btnEventInvite2:SetDrawLayer(1)
+    ui.btnEventInvite2:SetFont("ZoFontAlert")
+    ui.btnEventInvite2:SetScale(1)
+    ui.btnEventInvite2:SetText("")
+    ui.btnEventInvite2:SetNormalTexture("/esoui/art/hud/radialicon_invitegroup_up.dds")
+    ui.btnEventInvite2:SetMouseOverTexture("/esoui/art/hud/radialicon_invitegroup_over.dds")
+    ui.btnEventInvite2:SetHidden(true)
 
     ui.lblEvent2:SetColor(1.0, 1.0, 1.0, 1)
     ui.lblEvent2:SetFont("ZoFontAlert")
@@ -186,6 +213,17 @@ function GuildEventsUI:CreateEvents()
         GuildEventsUI:removeEvent(3)
     end)
 
+    ui.btnEventInvite3:SetDimensions(50,45)
+    ui.btnEventInvite3:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 540,150)
+    ui.btnEventInvite3:SetAlpha(1)
+    ui.btnEventInvite3:SetDrawLayer(1)
+    ui.btnEventInvite3:SetFont("ZoFontAlert")
+    ui.btnEventInvite3:SetScale(1)
+    ui.btnEventInvite3:SetText("")
+    ui.btnEventInvite3:SetNormalTexture("/esoui/art/hud/radialicon_invitegroup_up.dds")
+    ui.btnEventInvite3:SetMouseOverTexture("/esoui/art/hud/radialicon_invitegroup_over.dds")
+    ui.btnEventInvite3:SetHidden(true)
+
     ui.lblEvent3:SetColor(1.0, 1.0, 1.0, 1)
     ui.lblEvent3:SetFont("ZoFontAlert")
     ui.lblEvent3:SetScale(1)
@@ -227,6 +265,17 @@ function GuildEventsUI:CreateEvents()
     ui.btnEventDelete4:SetHandler("OnClicked", function(h)
         GuildEventsUI:removeEvent(4)
     end)
+
+    ui.btnEventInvite4:SetDimensions(50,45)
+    ui.btnEventInvite4:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 540,210)
+    ui.btnEventInvite4:SetAlpha(1)
+    ui.btnEventInvite4:SetDrawLayer(1)
+    ui.btnEventInvite4:SetFont("ZoFontAlert")
+    ui.btnEventInvite4:SetScale(1)
+    ui.btnEventInvite4:SetText("")
+    ui.btnEventInvite4:SetNormalTexture("/esoui/art/hud/radialicon_invitegroup_up.dds")
+    ui.btnEventInvite4:SetMouseOverTexture("/esoui/art/hud/radialicon_invitegroup_over.dds")
+    ui.btnEventInvite4:SetHidden(true)
 
     ui.lblEvent4:SetColor(1.0, 1.0, 1.0, 1)
     ui.lblEvent4:SetFont("ZoFontAlert")
@@ -270,6 +319,17 @@ function GuildEventsUI:CreateEvents()
         GuildEventsUI:removeEvent(5)
     end)
 
+    ui.btnEventInvite5:SetDimensions(50,45)
+    ui.btnEventInvite5:SetAnchor(TOPLEFT, ui.main, TOPLEFT, 540,270)
+    ui.btnEventInvite5:SetAlpha(1)
+    ui.btnEventInvite5:SetDrawLayer(1)
+    ui.btnEventInvite5:SetFont("ZoFontAlert")
+    ui.btnEventInvite5:SetScale(1)
+    ui.btnEventInvite5:SetText("")
+    ui.btnEventInvite5:SetNormalTexture("/esoui/art/hud/radialicon_invitegroup_up.dds")
+    ui.btnEventInvite5:SetMouseOverTexture("/esoui/art/hud/radialicon_invitegroup_over.dds")
+    ui.btnEventInvite5:SetHidden(true)
+
     ui.lblEvent5:SetColor(1.0, 1.0, 1.0, 1)
     ui.lblEvent5:SetFont("ZoFontAlert")
     ui.lblEvent5:SetScale(1)
@@ -306,6 +366,11 @@ function GuildEventsUI:GetEvents()
     ui.btnEventDelete3:SetHidden(true)
     ui.btnEventDelete4:SetHidden(true)
     ui.btnEventDelete5:SetHidden(true)
+    ui.btnEventInvite1:SetHidden(true)
+    ui.btnEventInvite2:SetHidden(true)
+    ui.btnEventInvite3:SetHidden(true)
+    ui.btnEventInvite4:SetHidden(true)
+    ui.btnEventInvite5:SetHidden(true)
     ui.lblEvent1:SetHidden(true)
     ui.lblEvent2:SetHidden(true)
     ui.lblEvent3:SetHidden(true)
@@ -335,10 +400,14 @@ function GuildEventsUI:GetEvents()
                 ui.lblEvent1:SetHidden(false)
                 ui.btnEvent1:SetHidden(false)
                 ui.lblAttending1:SetHidden(false)
-                ui.lblAttending1:SetText(GuildEventsUI:getAttending(eventId))
+                ui.lblAttending1:SetText(GuildEventsUI:getAttendingText(eventId))
 
                 if memberIsAdmin then
                     ui.btnEventDelete1:SetHidden(false)
+                    ui.btnEventInvite1:SetHidden(false)
+                    ui.btnEventInvite1:SetHandler("OnClicked", function(h)
+                        GuildEvents:inviteAttendees(eventId)
+                    end)
                 end
 
                 if isSignedUp then
@@ -360,10 +429,14 @@ function GuildEventsUI:GetEvents()
                 ui.lblEvent2:SetHidden(false)
                 ui.btnEvent2:SetHidden(false)
                 ui.lblAttending2:SetHidden(false)
-                ui.lblAttending2:SetText(GuildEventsUI:getAttending(eventId))
+                ui.lblAttending2:SetText(GuildEventsUI:getAttendingText(eventId))
 
                 if memberIsAdmin then
                     ui.btnEventDelete2:SetHidden(false)
+                    ui.btnEventInvite2:SetHidden(false)
+                    ui.btnEventInvite2:SetHandler("OnClicked", function(h)
+                        GuildEvents:inviteAttendees(eventId)
+                    end)
                 end
 
                 if isSignedUp then
@@ -385,10 +458,14 @@ function GuildEventsUI:GetEvents()
                 ui.lblEvent3:SetHidden(false)
                 ui.btnEvent3:SetHidden(false)
                 ui.lblAttending3:SetHidden(false)
-                ui.lblAttending3:SetText(GuildEventsUI:getAttending(eventId))
+                ui.lblAttending3:SetText(GuildEventsUI:getAttendingText(eventId))
 
                 if memberIsAdmin then
                     ui.btnEventDelete3:SetHidden(false)
+                    ui.btnEventInvite3:SetHidden(false)
+                    ui.btnEventInvite3:SetHandler("OnClicked", function(h)
+                        GuildEvents:inviteAttendees(eventId)
+                    end)
                 end
 
                 if isSignedUp then
@@ -410,10 +487,14 @@ function GuildEventsUI:GetEvents()
                 ui.lblEvent4:SetHidden(false)
                 ui.btnEvent4:SetHidden(false)
                 ui.lblAttending4:SetHidden(false)
-                ui.lblAttending4:SetText(GuildEventsUI:getAttending(eventId))
+                ui.lblAttending4:SetText(GuildEventsUI:getAttendingText(eventId))
 
                 if memberIsAdmin then
                     ui.btnEventDelete4:SetHidden(false)
+                    ui.btnEventInvite4:SetHidden(false)
+                    ui.btnEventInvite4:SetHandler("OnClicked", function(h)
+                        GuildEvents:inviteAttendees(eventId)
+                    end)
                 end
 
                 if isSignedUp then
@@ -435,10 +516,14 @@ function GuildEventsUI:GetEvents()
                 ui.lblEvent5:SetHidden(false)
                 ui.btnEvent5:SetHidden(false)
                 ui.lblAttending5:SetHidden(false)
-                ui.lblAttending5:SetText(GuildEventsUI:getAttending(eventId))
+                ui.lblAttending5:SetText(GuildEventsUI:getAttendingText(eventId))
 
                 if memberIsAdmin then
                     ui.btnEventDelete5:SetHidden(false)
+                    ui.btnEventInvite5:SetHidden(false)
+                    ui.btnEventInvite5:SetHandler("OnClicked", function(h)
+                        GuildEvents:inviteAttendees(eventId)
+                    end)
                 end
 
                 if isSignedUp then
@@ -625,7 +710,7 @@ function GuildEventsUI:unsignUpForEvent(button, lblAttending, eventId)
     lblAttending:SetText(attending)
 end
 
---getAttending: Returns an array of attendees (account name) for an even
+--getAttending: Returns a string of attendees (account name) for an event
 function GuildEventsUI:getAttending(eventId)
     local totalMembers = GetNumGuildMembers(GuildEventsUI.selectedGuildId)
     local count = 0
@@ -636,6 +721,44 @@ function GuildEventsUI:getAttending(eventId)
         local isAttending = GuildEventsUI:isSignedUp(i, eventId)
 
         if isAttending then
+            if count == 0 then
+                attending = name
+                count = count + 1
+            else
+                attending = attending..","..name
+            end
+        end
+    end
+
+    return attending
+end
+
+--getAttending: Returns a string of attendees with color codes to show if memver is already in group (account name) for an event
+function GuildEventsUI:getAttendingText(eventId)
+    local totalMembers = GetNumGuildMembers(GuildEventsUI.selectedGuildId)
+    local count = 0
+    local attending = "No attendees"
+
+    for i = 1, totalMembers do
+        local name, note = GetGuildMemberInfo(GuildEventsUI.selectedGuildId, i)
+        local isAttending = GuildEventsUI:isSignedUp(i, eventId)
+
+        if isAttending then
+            local groupSize = GetGroupSize()
+
+            if groupSize > 1 then
+                for z=1,GetGroupSize() do
+                    local unitTag = GetGroupUnitTagByIndex(z)
+                    local rawUnitName = GetRawUnitName(unitTag)
+                    local hasCharacter, characterName = GetGuildMemberCharacterInfo(GuildEventsUI.selectedGuildId, i)
+
+                    if rawUnitName == characterName then
+                        name = "|C008000"..name.."|r"
+                        break
+                    end
+                end
+            end
+
             if count == 0 then
                 attending = name
                 count = count + 1
@@ -745,4 +868,32 @@ function GuildEventsUI:saveEvents()
     end
 
     SetGuildMotD(GuildEventsUI.selectedGuildId, newMotd)
+end
+
+--Invite Attendees
+function GuildEvents:inviteAttendees(eventId)
+    local name = GetGuildMemberInfo(GuildEventsUI.selectedGuildId, GetPlayerGuildMemberIndex(GuildEventsUI.selectedGuildId))
+    local attending = GuildEventsUI:getAttending(eventId)
+    local members = attending:split(",")
+    local count = 0
+
+    if attending == "No attendees" then
+        d("No attendees to invite...")
+        return
+    end
+
+    for i = 1, #members do
+        if members[i] ~= name then
+            count = count + 1
+            GroupInviteByName(members[i])
+        end
+    end
+
+    if count > 0 then
+        d("Invited "..count.." members.")
+        d("Invited: "..attending)
+    else
+        d("No one else to invite...")
+    end
+    --zo_callLater(function() GuildEvents:inviteAttendees() end, 2000)
 end

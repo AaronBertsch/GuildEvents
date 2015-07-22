@@ -19,7 +19,6 @@ CALLBACK_MANAGER:RegisterCallback("OnGuildSelected", function()
         GuildEventsUI:GetEvents()
         GuildEventsUI.create:refresh()
     end
-
 end)
 
 function GuildEvents.GuildMotdUpdated(eventCode, guildId)
@@ -32,6 +31,16 @@ function GuildEvents.MemberNoteChanged(eventCode, guildId, DisplayName, newNote)
     if guildId == GuildEventsUI.selectedGuildId then
         GuildEventsUI:GetEvents()
     end
+end
+
+function GuildEvents.GroupMemberJoined(eventCode, memberName)
+    d("Group member joined: "..memberName)
+    GuildEventsUI:GetEvents()
+end
+
+function GuildEvents.GroupMemberLeft(eventCode, memberName, reason, wasLocalPlayer)
+    d("Group member left: "..memberName)
+    GuildEventsUI:GetEvents()
 end
 
 ------------------------------------------------
@@ -52,5 +61,5 @@ end
 EVENT_MANAGER:RegisterForEvent(GuildEvents.AddonId, EVENT_ADD_ON_LOADED, GuildEvents.init)
 EVENT_MANAGER:RegisterForEvent(GuildEvents.AddonId, EVENT_GUILD_MOTD_CHANGED, GuildEvents.GuildMotdUpdated)
 EVENT_MANAGER:RegisterForEvent(GuildEvents.AddonId,  EVENT_GUILD_MEMBER_NOTE_CHANGED, GuildEvents.MemberNoteChanged)
-
-
+EVENT_MANAGER:RegisterForEvent(GuildEvents.AddonId,  EVENT_GROUP_MEMBER_JOINED, GuildEvents.GroupMemberJoined)
+EVENT_MANAGER:RegisterForEvent(GuildEvents.AddonId,  EVENT_GROUP_MEMBER_LEFT, GuildEvents.GroupMemberLeft)
