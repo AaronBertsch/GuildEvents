@@ -713,12 +713,13 @@ function GuildEventsUI:signUpForEvent(button, lblAttending, eventId)
     end)
 
     --Add to attending
-    local attending = lblAttending:GetText()
-    if attending == "No attendees" then
-        lblAttending:SetText(name)
-    else
-        lblAttending:SetText(attending.."\n"..name)
-    end
+    --local attending = lblAttending:GetText()
+    --if attending == "No attendees" then
+    --    lblAttending:SetText(name)
+    --else
+    --    lblAttending:SetText(attending.."\n"..name)
+    --end
+
 end
 
 --unsignUpForEvent: Removed the player from being signed up from that event
@@ -727,22 +728,29 @@ function GuildEventsUI:unsignUpForEvent(button, lblAttending, eventId)
     local memberEvents = trimString( note )
     local newNote = ""
 
-    newNote = string.sub(note, 1, string.find(note, "#") - 1).."#"
+    newNote = string.sub(note, 1, string.find(note, "#") - 1)
 
     local events = memberEvents:split(";")
-    local count = 0
-    for i = 1, #events do
-        if events[i] ~= eventId then
-            if count == 0 then
-                newNote = newNote..events[i]
+
+    if table.getn(events) > 0 then
+        local eventNote = ""
+        local count = 0
+        for i = 1, #events do
+            if events[i] ~= eventId then
+                if count == 0 then
+                    eventNote = eventNote..events[i]
+                else
+                    eventNote = eventNote..";"..events[i]
+                end
+
                 count = count + 1
-            else
-                newNote = newNote..";"..events[i]
+            end
+
+            if count > 0 then
+               newNote = "#"..eventNote.."#"
             end
         end
     end
-
-    newNote = newNote.."#"
 
     SetGuildMemberNote(GuildEventsUI.selectedGuildId, GetPlayerGuildMemberIndex(GuildEventsUI.selectedGuildId), newNote)
 
