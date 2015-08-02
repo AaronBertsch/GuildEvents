@@ -728,7 +728,7 @@ function GuildEventsUI:unsignUpForEvent(button, lblAttending, eventId)
     local memberEvents = trimString( note )
     local newNote = ""
 
-    newNote = string.sub(note, 1, string.find(note, "\n#") - 1)
+    newNote = string.sub(note, 1, string.find(note, "#") - 1)
 
     local events = memberEvents:split(";")
 
@@ -748,7 +748,7 @@ function GuildEventsUI:unsignUpForEvent(button, lblAttending, eventId)
         end
 
         if count > 0 then
-            newNote = newNote.."\n#"..eventNote.."#"
+            newNote = newNote.."#"..eventNote.."#"
         end
     end
 
@@ -880,10 +880,10 @@ function GuildEventsUI:removeEvent(dialog)
             local newNote = ""
 
             --check if member has # at all
-            if string.find(note, "\n#") == nil then
+            if string.find(note, "#") == nil then
                 --no changes needed
             else
-                newNote = string.sub(note, 1, string.find(note, "\n#") - 1)
+                newNote = string.sub(note, 1, string.find(note, "#") - 1)
 
                 local events = memberEvents:split(";")
                 local count = 0
@@ -906,10 +906,10 @@ function GuildEventsUI:removeEvent(dialog)
                 end
 
                 if count > 0 then
-                    newNote = newNote.."\n#"..eventsNote.."#"
+                    newNote = newNote.."#"..eventsNote.."#"
                 end
 
-                local noteCompare = "\n#"..memberEvents.."#"
+                local noteCompare = "#"..memberEvents.."#"
                 if noteCompare ~= newNote then
                     zo_callLater(function () SetGuildMemberNote(GuildEventsUI.selectedGuildId, i, newNote) end, miliseconds)
                     miliseconds = miliseconds + 10000
