@@ -728,7 +728,7 @@ function GuildEventsUI:unsignUpForEvent(button, lblAttending, eventId)
     local memberEvents = trimString( note )
     local newNote = ""
 
-    newNote = string.sub(note, 1, string.find(note, "#") - 1)
+    newNote = string.sub(note, 1, string.find(note, "\n#") - 1)
 
     local events = memberEvents:split(";")
 
@@ -745,10 +745,10 @@ function GuildEventsUI:unsignUpForEvent(button, lblAttending, eventId)
 
                 count = count + 1
             end
+        end
 
-            if count > 0 then
-               newNote = "#"..eventNote.."#"
-            end
+        if count > 0 then
+            newNote = newNote.."\n#"..eventNote.."#"
         end
     end
 
@@ -883,21 +883,31 @@ function GuildEventsUI:removeEvent(dialog)
             if string.find(note, "\n#") == nil then
                 --no changes needed
             else
-                newNote = string.sub(note, 1, string.find(note, "#") - 1).."#"
+                newNote = string.sub(note, 1, string.find(note, "\n#") - 1)
+
                 local events = memberEvents:split(";")
                 local count = 0
-                for i = 1, #events do
-                    local id = tonumber(events[i])
-                    if id ~= eventId then
-                        if count == 0 then
-                            newNote = newNote..events[i]
+                local eventsNote = ""
+
+                if table.getn(events) > 0 then
+                    for i = 1, #events do
+                        local id = tonumber(events[i])
+
+                        if id ~= eventId then
+                            if count == 0 then
+                                eventsNote = eventsNote..events[i]
+                            else
+                                eventsNote = eventsNote..";"..events[i]
+                            end
+
                             count = count + 1
-                        else
-                            newNote = newNote..";"..events[i]
                         end
                     end
                 end
-                newNote = newNote.."#"
+
+                if count > 0 then
+                    newNote = newNote.."\n#"..eventsNote.."#"
+                end
 
                 local noteCompare = "\n#"..memberEvents.."#"
                 if noteCompare ~= newNote then
