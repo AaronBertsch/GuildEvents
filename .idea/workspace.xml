@@ -25,8 +25,8 @@
       <file leaf-file-name="GuildEvents.lua" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GuildEvents.lua">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="36" column="4" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="4" />
+            <state vertical-scroll-proportion="-20.172413">
+              <caret line="50" column="22" selection-start-line="50" selection-start-column="20" selection-end-line="50" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -35,18 +35,18 @@
       <file leaf-file-name="GuildEventsUI.lua" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GuildEventsUI.lua">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="-1.7586207">
+              <caret line="3" column="5" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GuildEvents.txt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="GuildEvents.txt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/GuildEvents.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="4" column="18" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
+            <state vertical-scroll-proportion="0.20326087">
+              <caret line="11" column="38" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -55,18 +55,18 @@
       <file leaf-file-name="GuildEvents_Create_Fragment.lua" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ui/GuildEvents_Create_Fragment.lua">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="311" column="0" selection-start-line="311" selection-start-column="0" selection-end-line="311" selection-end-column="0" />
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="5" selection-start-line="0" selection-start-column="4" selection-end-line="0" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GuildEvents_Events_Fragment.lua" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GuildEvents_Events_Fragment.lua" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ui/GuildEvents_Events_Fragment.lua">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5802469">
-              <caret line="750" column="31" selection-start-line="750" selection-start-column="31" selection-end-line="750" selection-end-column="31" />
+            <state vertical-scroll-proportion="-0.82758623">
+              <caret line="935" column="37" selection-start-line="935" selection-start-column="37" selection-end-line="935" selection-end-column="37" />
               <folding>
                 <element signature="n#string:split#0" expanded="false" />
                 <element signature="n#GuildEventsEventDeleteConfirmationInitialize#0" expanded="false" />
@@ -77,9 +77,6 @@
                 <element signature="n#GuildEventsUI:signUpForEvent#0" expanded="false" />
                 <element signature="n#GuildEventsUI:getAttending#0" expanded="false" />
                 <element signature="n#GuildEventsUI:getAttendingText#0" expanded="false" />
-                <element signature="n#GuildEventsUI:removeEvent#0" expanded="false" />
-                <element signature="n#GuildEventsUI:saveEvents#0" expanded="false" />
-                <element signature="n#GuildEvents:inviteAttendees#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -128,10 +125,10 @@
         <option value="$PROJECT_DIR$/GuildEventsUI.lua" />
         <option value="$PROJECT_DIR$/ui/GuildEvents_Create_Fragment.lua" />
         <option value="$PROJECT_DIR$/ui/GuildEvents_Scene.lua" />
-        <option value="$PROJECT_DIR$/GuildEvents.lua" />
         <option value="$PROJECT_DIR$/GuildEventsEventDeleteConfirmation.xml" />
-        <option value="$PROJECT_DIR$/GuildEvents.txt" />
         <option value="$PROJECT_DIR$/ui/GuildEvents_Events_Fragment.lua" />
+        <option value="$PROJECT_DIR$/GuildEvents.lua" />
+        <option value="$PROJECT_DIR$/GuildEvents.txt" />
       </list>
     </option>
   </component>
@@ -480,9 +477,6 @@
             <element signature="n#GuildEventsUI:signUpForEvent#0" expanded="false" />
             <element signature="n#GuildEventsUI:getAttending#0" expanded="false" />
             <element signature="n#GuildEventsUI:getAttendingText#0" expanded="false" />
-            <element signature="n#GuildEventsUI:removeEvent#0" expanded="false" />
-            <element signature="n#GuildEventsUI:saveEvents#0" expanded="false" />
-            <element signature="n#GuildEvents:inviteAttendees#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -557,9 +551,6 @@
             <element signature="n#GuildEventsUI:signUpForEvent#0" expanded="false" />
             <element signature="n#GuildEventsUI:getAttending#0" expanded="false" />
             <element signature="n#GuildEventsUI:getAttendingText#0" expanded="false" />
-            <element signature="n#GuildEventsUI:removeEvent#0" expanded="false" />
-            <element signature="n#GuildEventsUI:saveEvents#0" expanded="false" />
-            <element signature="n#GuildEvents:inviteAttendees#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -634,9 +625,6 @@
             <element signature="n#GuildEventsUI:signUpForEvent#0" expanded="false" />
             <element signature="n#GuildEventsUI:getAttending#0" expanded="false" />
             <element signature="n#GuildEventsUI:getAttendingText#0" expanded="false" />
-            <element signature="n#GuildEventsUI:removeEvent#0" expanded="false" />
-            <element signature="n#GuildEventsUI:saveEvents#0" expanded="false" />
-            <element signature="n#GuildEvents:inviteAttendees#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -703,9 +691,6 @@
             <element signature="n#GuildEventsUI:signUpForEvent#0" expanded="false" />
             <element signature="n#GuildEventsUI:getAttending#0" expanded="false" />
             <element signature="n#GuildEventsUI:getAttendingText#0" expanded="false" />
-            <element signature="n#GuildEventsUI:removeEvent#0" expanded="false" />
-            <element signature="n#GuildEventsUI:saveEvents#0" expanded="false" />
-            <element signature="n#GuildEvents:inviteAttendees#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -718,34 +703,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GuildEventsUI.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ui/GuildEvents_Scene.lua">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ui/GuildEvents_Create_Fragment.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="311" column="0" selection-start-line="311" selection-start-column="0" selection-end-line="311" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GuildEvents.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="36" column="4" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="4" />
           <folding />
         </state>
       </provider>
@@ -758,14 +719,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GuildEvents.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="18" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/GuildEvents.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -774,10 +727,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/GuildEvents.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-20.172413">
+          <caret line="50" column="22" selection-start-line="50" selection-start-column="20" selection-end-line="50" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GuildEventsUI.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.7586207">
+          <caret line="3" column="5" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ui/GuildEvents_Create_Fragment.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0">
+          <caret line="0" column="5" selection-start-line="0" selection-start-column="4" selection-end-line="0" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ui/GuildEvents_Events_Fragment.lua">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5802469">
-          <caret line="750" column="31" selection-start-line="750" selection-start-column="31" selection-end-line="750" selection-end-column="31" />
+        <state vertical-scroll-proportion="-0.82758623">
+          <caret line="935" column="37" selection-start-line="935" selection-start-column="37" selection-end-line="935" selection-end-column="37" />
           <folding>
             <element signature="n#string:split#0" expanded="false" />
             <element signature="n#GuildEventsEventDeleteConfirmationInitialize#0" expanded="false" />
@@ -788,10 +765,15 @@
             <element signature="n#GuildEventsUI:signUpForEvent#0" expanded="false" />
             <element signature="n#GuildEventsUI:getAttending#0" expanded="false" />
             <element signature="n#GuildEventsUI:getAttendingText#0" expanded="false" />
-            <element signature="n#GuildEventsUI:removeEvent#0" expanded="false" />
-            <element signature="n#GuildEventsUI:saveEvents#0" expanded="false" />
-            <element signature="n#GuildEvents:inviteAttendees#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GuildEvents.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.20326087">
+          <caret line="11" column="38" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
+          <folding />
         </state>
       </provider>
     </entry>

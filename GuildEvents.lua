@@ -34,12 +34,10 @@ function GuildEvents.MemberNoteChanged(eventCode, guildId, DisplayName, newNote)
 end
 
 function GuildEvents.GroupMemberJoined(eventCode, memberName)
-    d("Group member joined: "..memberName)
     GuildEventsUI:GetEvents()
 end
 
 function GuildEvents.GroupMemberLeft(eventCode, memberName, reason, wasLocalPlayer)
-    d("Group member left: "..memberName)
     GuildEventsUI:GetEvents()
 end
 
