@@ -47,7 +47,9 @@ function GuildEvents.PlayerStatusChanged(eventCode, guildId, DisplayName, oldSta
     -- 3 = Do not disturb
     -- 4 = Offline
 
-    GuildEventsUI:GetEvents()
+    if GuildEvents.initDone then
+        GuildEventsUI:GetEvents()
+    end
 end
 
 ------------------------------------------------

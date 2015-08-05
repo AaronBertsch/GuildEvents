@@ -969,23 +969,73 @@ function GuildEvents:inviteAttendees(eventId)
     local name = GetGuildMemberInfo(GuildEventsUI.selectedGuildId, GetPlayerGuildMemberIndex(GuildEventsUI.selectedGuildId))
     local attending = GuildEventsUI:getAttending(eventId)
     local members = attending:split(",")
+    local membersToInvite = {}
     local count = 0
+    local memberToInviteCount = 0
 
     if attending == "No attendees" then
         d("No attendees to invite...")
         return
     end
 
+    --Filter member list to only invite members that are not in group
     for i = 1, #members do
         if members[i] ~= name then
+
+            --Check if player is in group
+            local isMemberInGroup = false
+            local isMemberOffline = false
+
+            for z=1, GetGroupSize() do
+                local unitTag = GetGroupUnitTagByIndex(z)
+                local rawUnitName = GetRawUnitName(unitTag)
+                local hasCharacter, characterName = GetGuildMemberCharacterInfo(GuildEventsUI.selectedGuildId, i)
+
+                if rawUnitName == characterName then
+                    isMemberInGroup = true
+                    break
+                end
+            end
+
+            --Check if player is offline
+            for z=1, GetNumGuildMembers(GuildEventsUI.selectedGuildId) do
+                local memberName, memberNote, memberRankIndex, memberPlayerStatus  = GetGuildMemberInfo(GuildEventsUI.selectedGuildId, z)
+
+                if memberName == members[i] then
+                    if memberPlayerStatus == 4 then
+                        isMemberOffline = true
+                    end
+                    break
+                end
+            end
+
+            if isMemberInGroup == false and isMemberOffline == false then
+                memberToInviteCount = memberToInviteCount + 1
+                membersToInvite[memberToInviteCount] = members[i]
+            end
+        end
+    end
+
+    --Invite members that need to be invited
+    for i = 1, #membersToInvite do
+        if membersToInvite[i] ~= name then
             count = count + 1
-            GroupInviteByName(members[i])
+            GroupInviteByName(membersToInvite[i])
         end
     end
 
     if count > 0 then
+        local membersInvitedText = ""
+        for i = 1, #membersToInvite do
+            if i == 1 then
+                membersInvitedText = membersToInvite[i]
+            else
+                membersInvitedText = membersInvitedText..","..membersToInvite[i]
+            end
+
+        end
         d("Invited "..count.." members.")
-        d("Invited: "..attending)
+        d("Invited: "..membersInvitedText)
     else
         d("No one else to invite...")
     end
