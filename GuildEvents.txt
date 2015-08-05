@@ -1,8 +1,8 @@
 ## Title: GuildEvents
 ## Author: @moen
-## APIVersion: 100012
+## APIVersion: 100011
 ## Description: Allows guild members to create and sign up for events
-## Version: 1.1.12
+## Version: 1.1.13
 
 GuildEvents.lua
 GuildEventsUI.lua

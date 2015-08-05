@@ -41,6 +41,15 @@ function GuildEvents.GroupMemberLeft(eventCode, memberName, reason, wasLocalPlay
     GuildEventsUI:GetEvents()
 end
 
+function GuildEvents.PlayerStatusChanged(eventCode, guildId, DisplayName, oldStatus, newStatus)
+    -- 1 = Online
+    -- 2 = Away
+    -- 3 = Do not disturb
+    -- 4 = Offline
+
+    GuildEventsUI:GetEvents()
+end
+
 ------------------------------------------------
 --- Initialization
 ------------------------------------------------
@@ -61,3 +70,5 @@ EVENT_MANAGER:RegisterForEvent(GuildEvents.AddonId, EVENT_GUILD_MOTD_CHANGED, Gu
 EVENT_MANAGER:RegisterForEvent(GuildEvents.AddonId,  EVENT_GUILD_MEMBER_NOTE_CHANGED, GuildEvents.MemberNoteChanged)
 EVENT_MANAGER:RegisterForEvent(GuildEvents.AddonId,  EVENT_GROUP_MEMBER_JOINED, GuildEvents.GroupMemberJoined)
 EVENT_MANAGER:RegisterForEvent(GuildEvents.AddonId,  EVENT_GROUP_MEMBER_LEFT, GuildEvents.GroupMemberLeft)
+EVENT_MANAGER:RegisterForEvent(GuildEvents.AddonId,  EVENT_GUILD_MEMBER_PLAYER_STATUS_CHANGED, GuildEvents.PlayerStatusChanged)
+--EVENT_GUILD_MEMBER_PLAYER_STATUS_CHANGED (integer eventCode, integer guildId, string DisplayName, integer oldStatus, integer newStatus)

@@ -808,12 +808,13 @@ function GuildEventsUI:getAttendingText(eventId)
     local attending = "No attendees"
 
     for i = 1, totalMembers do
-        local name, note = GetGuildMemberInfo(GuildEventsUI.selectedGuildId, i)
+        local name, note, rankIndex, playerStatus = GetGuildMemberInfo(GuildEventsUI.selectedGuildId, i)
         local isAttending = GuildEventsUI:isSignedUp(i, eventId)
 
         if isAttending then
             local groupSize = GetGroupSize()
 
+            --Check if player is in group
             if groupSize > 1 then
                 for z=1,GetGroupSize() do
                     local unitTag = GetGroupUnitTagByIndex(z)
@@ -821,10 +822,21 @@ function GuildEventsUI:getAttendingText(eventId)
                     local hasCharacter, characterName = GetGuildMemberCharacterInfo(GuildEventsUI.selectedGuildId, i)
 
                     if rawUnitName == characterName then
-                        name = "|C008000"..name.."|r"
+
+                        if playerStatus ~= 4 then
+                            name = "|C29C310"..name.."|r"
+                        else
+                            name = "|C004601"..name.."|r"
+                        end
+
                         break
                     end
                 end
+            end
+
+            --Check if player is offline
+            if playerStatus == 4 then
+                name = "|C636563"..name.."|r"
             end
 
             if count == 0 then
