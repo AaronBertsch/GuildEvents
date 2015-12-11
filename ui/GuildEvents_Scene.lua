@@ -18,8 +18,10 @@ function GuildEventsUI:CreateScene()
     GUILD_EVENTS_SCENE:AddFragment(GUILD_EVENTS_EVENTS_FRAGMENT)
     GUILD_EVENTS_SCENE:AddFragment(GUILD_EVENTS_CREATE_FRAGMENT)
 
-    local indx = #MAIN_MENU.sceneGroupInfo.guildsSceneGroup.menuBarIconData + 1
-    MAIN_MENU.sceneGroupInfo.guildsSceneGroup.menuBarIconData[indx] = {
+    local mainMenu = GetAPIVersion() <= 100012 and MAIN_MENU or MAIN_MENU_KEYBOARD
+    local indx = #mainMenu.sceneGroupInfo.guildsSceneGroup.menuBarIconData + 1
+
+    mainMenu.sceneGroupInfo.guildsSceneGroup.menuBarIconData[indx] = {
         categoryName = SI_GUILD_EVENTS,
         descriptor = "guildEvents",
         normal = "/esoui/art/inventory/inventory_tabicon_quest_up.dds",
@@ -28,6 +30,6 @@ function GuildEventsUI:CreateScene()
     }
 
     SCENE_MANAGER:GetSceneGroup("guildsSceneGroup").scenes[indx] = "guildEvents"
-    GUILD_EVENTS_SCENE:AddFragment(ZO_FadeSceneFragment:New(MAIN_MENU.sceneGroupBar))
-    MAIN_MENU:AddRawScene("guildEvents", 11, MAIN_MENU.categoryInfo[11], "guildsSceneGroup")
+    GUILD_EVENTS_SCENE:AddFragment(ZO_FadeSceneFragment:New(mainMenu.sceneGroupBar))
+    mainMenu:AddRawScene("guildEvents", 11, mainMenu.categoryInfo[11], "guildsSceneGroup")
 end
